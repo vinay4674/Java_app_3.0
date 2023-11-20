@@ -76,7 +76,7 @@ pipeline{
             when { expression {  params.action == 'create' } }
                steps {
                     script {
-                        def server = Artifactory.newServer url: 'https://your-artifactory-url.com', credentialsId: 'your-credentials-id'
+                        def server = Artifactory.newServer url: 'http://43.204.109.90:8082/artifactory/example-repo-local/', credentialsId: 'jfrog-credentials-id'
                         def buildInfo = Artifactory.newBuildInfo()
 
                         // Publish artifacts to Artifactory
