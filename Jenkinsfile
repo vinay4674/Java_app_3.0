@@ -72,6 +72,21 @@ pipeline{
                }
             }
         }
+        stage('Publish to Artifactory') {
+            when { expression {  params.action == 'create' } }
+               steps {
+                    script {
+                        def server = Artifactory.newServer url: 'https://your-artifactory-url.com', credentialsId: 'your-credentials-id'
+                        def buildInfo = Artifactory.newBuildInfo()
+
+                        // Publish artifacts to Artifactory
+                        server.upload spec: "target/*.jar", buildInfo: buildInfo
+
+                        // Publish build information
+                        server.publishBuildInfo buildInfo
+                }
+            }
+        }
         stage('Docker Image Build'){
          when { expression {  params.action == 'create' } }
             steps{
