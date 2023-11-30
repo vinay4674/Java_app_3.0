@@ -72,22 +72,7 @@ pipeline{
                }
             }
         }
-        stage('Publish to Artifactory') {
-            when { expression {  params.action == 'create' } }
-               steps {
-                    script {
-                        def server = Artifactory.newServer url: 'http://43.204.109.90:8082/artifactory/example-repo-local/', credentialsId: 'jfrog-credentials-id'
-                        def buildInfo = Artifactory.newBuildInfo()
-
-                        // Publish artifacts to Artifactory
-                        server.upload spec: "target/*.jar", buildInfo: buildInfo
-
-                        // Publish build information
-                        server.publishBuildInfo buildInfo
-                }
-            }
-        }
-        stage('Docker Image Build'){
+         stage('Docker Image Build'){
          when { expression {  params.action == 'create' } }
             steps{
                script{
