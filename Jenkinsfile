@@ -63,7 +63,16 @@ pipeline{
                }
             }
        }
-       stage('Publish to Artifactory') {
+        stage('Maven Build : maven'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
+                   
+                   mvnBuild()
+               }
+            }
+        }
+	 stage('Publish to Artifactory') {
             when { expression {  params.action == 'create' } }
                steps {
                     script {
@@ -78,15 +87,7 @@ pipeline{
                 }
             }
         }
-        stage('Maven Build : maven'){
-         when { expression {  params.action == 'create' } }
-            steps{
-               script{
-                   
-                   mvnBuild()
-               }
-            }
-        }
+
          stage('Docker Image Build'){
          when { expression {  params.action == 'create' } }
             steps{
