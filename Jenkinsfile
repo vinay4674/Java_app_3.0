@@ -80,7 +80,7 @@ pipeline{
                         def buildInfo = Artifactory.newBuildInfo()
 
                         // Publish artifacts to Artifactory
-                        server.upload spec: "target/*.jar", buildInfo: buildInfo
+                       // server.upload spec: "target/*.jar", buildInfo: buildInfo
 
                         // Publish build information
                         server.publishBuildInfo buildInfo
