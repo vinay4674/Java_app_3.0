@@ -63,6 +63,21 @@ pipeline{
                }
             }
        }
+       stage('Publish to Artifactory') {
+            when { expression {  params.action == 'create' } }
+               steps {
+                    script {
+                        def server = Artifactory.newServer url: 'http://13.233.107.220:8082/artifactory/example-repo-local/', credentialsId: 'jfrogcredentailsID'
+                        def buildInfo = Artifactory.newBuildInfo()
+
+                        // Publish artifacts to Artifactory
+                        server.upload spec: "target/*.jar", buildInfo: buildInfo
+
+                        // Publish build information
+                        server.publishBuildInfo buildInfo
+                }
+            }
+        }
         stage('Maven Build : maven'){
          when { expression {  params.action == 'create' } }
             steps{
